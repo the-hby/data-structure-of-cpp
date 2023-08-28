@@ -13,13 +13,13 @@ protected:
     bool bubble(Rank lo,Rank hi);
     Rank max(Rank lo,Rank hi);
     void selectionSort(Rank lo,Rank hi);
-    void merge(Rank lo,Rank hi);
+    void merge(Rank lo,Rank mi,Rank hi);
     void mergeSort(Rank lo,Rank hi);
     Rank partition(Rank lo,Rank hi);
     void quikSort(Rank lo,Rank hi);
     void heapSort(Rank lo,Rank hi);
 public:
-    my_vector(int c=DEFAULT_CAPACITY,int s=0,T v=0);
+    my_vector(int c=DEFAULT_CAPACITY,int s=0,T v=0)
     {
         _elem=new T[_capacity=c];
         for(_size=0;_size<s;_elem[_size++]=v);
@@ -32,14 +32,14 @@ public:
     Rank size()const{return _size;}
     bool empty()const{return !_size;}
     int disordered()const;
-    Rank find(const T&e)const;
+    Rank find(const T&e,Rank lo,Rank hi)const;
     Rank search(const T&e)const
     {
         return (0>=_size)?-1:search(e,0,_size);
     }
     Rank search(const T&e,Rank lo,Rank hi)const;
     T& operator[](Rank r)const;
-    my_vector<T>& operator=(my_vector<T>&)const;
+    my_vector<T>& operator=(my_vector<T>&);
     T remove(Rank r);
     int remove(Rank lo,Rank hi);
     Rank insert(Rank r,const T&e);
