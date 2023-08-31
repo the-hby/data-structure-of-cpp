@@ -12,7 +12,7 @@ protected:
     void init();
     int clear();
     void copyNodes(listNode<T>*,int);
-    void merge(listNode<T>*,int,List<T>&,listNode<T>,int);
+    void merge(listNode<T>*,int,List<T>&,listNode<T>*,int);
     void mergeSort(listNode<T>*&,int);
     void selectionSort(listNode<T>*,int);
     void insertSort(listNode<T>*,int);
@@ -20,7 +20,7 @@ public:
     List(){init();}
     List(const List<T>&L);
     List(const List<T>&L,int r,int n);
-    List(const listNode<T>*p,int n);
+    List(listNode<T>*p,int n);
     ~List();
     int size()const{return _size;}
     bool empty()const{return _size<=0;}
@@ -40,7 +40,7 @@ public:
     listNode<T>* insertA(listNode<T>*p,const T&e);
     listNode<T>* insertB(listNode<T>*p,const T&e);
     T remove(listNode<T>*p);
-    void merge(List<T>&L);
+    void merge(List<T>&L){merge(first(),_size,L,L.first(),L.size());}
     void sort(listNode<T>*p,int n);
     void sort(){sort(first(),_size);}
     int deduplicate();
