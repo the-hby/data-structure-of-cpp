@@ -1,6 +1,8 @@
 #include"./function.h"
+#include <cmath>
 #include<stdio.h>
 #include<string.h>
+#include "Stack.h"
 #include"cmath"
 void convert1(Stack<char>&S,int n,int base)
 {
@@ -164,4 +166,79 @@ float evaluate(char*S,char*&RPN)
         }
     }
     return opnd.pop();
+}
+void placeQueen(int N)
+{
+    Stack<Queen>solu;
+    Queen q(0,0);
+    do
+    {
+        if(N<=solu.size()||N<=q.y)
+        {
+            q=solu.pop();
+            q.y++;
+        }
+        else {
+            while((q.y<N)&&(0<=solu.find(q)))
+            {
+                q.y++;
+                nCheck++;
+            }
+            if(N>q.y)
+            {
+                solu.push(q);
+                if(N<=solu.size()){nSolu++;}
+                q.x++;q.y=0;
+            }
+        }
+    }while((q.x>0)||(q.y<N));
+}
+inline Cell* neighbor(Cell*cell)
+{
+    switch(cell->outgoing)
+    {
+        case EAST:return cell+LABY_MAX;
+        case SOUTH:return cell+1;
+        case WEST:return cell-LABY_MAX;
+        case NORTH:return cell-1;
+        default:exit(-1);
+    }   
+}
+inline Cell* advance(Cell*cell)
+{
+    Cell*next;
+    switch(cell->outgoing)
+    {
+        case EAST:next=cell+LABY_MAX;next->incoming=WEST;break;
+        case SOUTH:next=cell+1;next->incoming=NORTH;break;
+        case WEST:next=cell-LABY_MAX;next->incoming=EAST;break;
+        case NORTH:next=cell-1;next->incoming=SOUTH;break;
+        default:exit(-1);
+    }
+    return next;
+}
+bool labyrinth(Cell Laby[LABY_MAX][LABY_MAX],Cell*s,Cell*t)
+{
+    if((AVAILABLE!=s->status)||(AVAILABLE!=t->status)){return false;}
+    Stack<Cell*>path;
+    s->incoming=UNKNOWN;s->status=ROUTE;path.push(s);
+    do 
+    {
+        Cell*c=path.top();
+        if(c==t){return true;}
+        while(NO_WAY>(c->outgoing=nextESWN(c->outgoing)))
+        {
+            if(AVAILABLE==neighbor(c)->status){break;}
+        }
+        if(NO_WAY<=c->outgoing)
+        {
+            c->status=BACKRACKED;
+            c=path.pop();
+        }
+        else {
+            path.push(c=advance(c));c->outgoing=UNKNOWN;
+            c->status=ROUTE;
+        }
+    }while (!path.empty());
+    return false;
 }

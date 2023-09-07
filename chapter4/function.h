@@ -28,4 +28,29 @@ char priority(char op1,char op2);
 double calcu ( double a, char op, double b );
 double calcu ( char op, double b );
 int facI(int n);
-#endif
+struct Queen{
+    int x,y;
+    Queen(int xx=0,int yy=0):x(xx),y(yy){}
+    bool operator==(const Queen&q)const
+    {
+        return (x==q.x)||(y==q.y)||(x+y==q.x+q.y)||(x-y==q.x-q.y);
+    }
+    bool operator!=(const Queen&q)const
+    {
+        return !((*this)==q);
+    }
+};
+void placeQueens(int N);
+extern int nSolu;
+extern int nCheck;
+typedef enum{AVAILABLE,ROUTE,BACKRACKED,WALL}Status;
+typedef enum{UNKNOWN,EAST,SOUTH,WEST,NORTH,NO_WAY}ESWN;
+inline ESWN nextESWN(ESWN eswn){return ESWN(eswn+1);}
+struct Cell{
+    int x,y;
+    Status status;
+    ESWN incoming,outgoing;
+};
+#define LABY_MAX 24
+Cell laby[LABY_MAX][LABY_MAX];
+#endif 
