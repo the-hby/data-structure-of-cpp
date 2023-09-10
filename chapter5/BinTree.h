@@ -2,10 +2,6 @@
 #define BinTree_h_
 #include"./BinNode.h"
 template<typename T>
-static bool lt(T &a,T &b){return a<b;}
-template<typename T>
-static bool lt(T*a,T*b){return lt(*a,*b);}
-template<typename T>
 class BinTree
 {
 protected:
@@ -33,7 +29,7 @@ public:
     template<typename VST>
     void travPost(VST&visit){_root->travPost(visit,this);}
     template<typename VST>
-    void travIn(VST&visit){_root->travIn(visit);}
+    void travIn(VST&visit){_root->travIn(this,visit);}
     bool operator<(const BinTree<T>&t)
     {
         return _root&&t._root&&lt(_root,t._root);
@@ -42,5 +38,11 @@ public:
     {
         return _root&&t._root&&(_root==t._root);
     }
+    template<typename VST>
+    void travPre_I2(BinNode<T>*x,VST&visit);
+    template<typename VST>
+    void travIn_I1(BinNode<T>*x,VST&visit);
+    template<typename VST>
+    void travPost_I(BinNode<T>*x,VST&visit);
 };
 #endif

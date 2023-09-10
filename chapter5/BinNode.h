@@ -1,6 +1,7 @@
 #ifndef BinNode_h_
 #define BinNode_h_
 #include<iostream>
+#include"../chapter4/queue.h"
 #define stature(p)((p)?(p)->height:-1)
 typedef enum{RB_RED,RB_BLACK}RBColor;
 template<typename T>
@@ -20,7 +21,7 @@ struct BinNode
     BinNode<T>* succ();
     template<typename VST>void travLevel(VST&,BinNode<T>*);
     template<typename VST>void travPre(VST&,BinNode<T>*);
-    template<typename VST>void travIn(VST&);
+    template<typename VST>void travIn(BinNode<T>*p,VST&);
     template<typename VST>void travPost(VST&,BinNode<T>*);
     bool operator<(const BinNode<T>&bn){return data<bn.data;}
     bool operator==(const BinNode<T>&bn){return data==bn.data;}
@@ -38,17 +39,21 @@ BinNode<T>* BinNode<T>::insertAsRC(const T &e)
 template<typename T>template<typename VST>
 void BinNode<T>::travLevel(VST&visit,BinNode<T>*p)
 {
-    if(p==NULL){return;}
-     visit(p->data);
-    traveLevel(visit,p->lc);
-    traveLevel(visit,p->rc);
+   Queue<BinNode<T>*>Q;
+   Q.enqueue(this);
+   while(!Q.empty())
+   {
+        BinNode<T>*x=Q.dequeue();visit(x->data);
+        if(HasLChild(*x)){Q.enqueue(x->lc);}
+        if(HasRChild(*x)){Q.enqueue(x->rc);}
+   }
 }
 template<typename T>template<typename VST>
 void BinNode<T>::travPre(VST&visit,BinNode<T>*p)
 {
     if(p==NULL){return;}
+    visit(p->data);
     travPre(visit,p->lc);
-    visit(this->data);
     travPre(visit,p->rc);
 }
 template<typename T>template<typename VST>
@@ -60,14 +65,11 @@ void BinNode<T>::travPost(VST &visit, BinNode<T> *p)
     visit(p->data);
 }
 template<typename T>template<typename VST>
-void BinNode<T>::travIn(VST &visit)
+void BinNode<T>::travIn(BinNode<T>*p,VST &visit)
 {
-    switch(rand()%3)
-    {
-        case 1:travPost(visit,this);
-        case 2:travLevel(visit,this);
-        default:travPost(visit,this);
-    }
+   travIn(p->lc,visit);
+   visit(p->data);
+   travIn(p->rc,visit);
 }
 #define IsRoot(x)(!((x).parent))
 #define IsLChild(x)(!IsRoot(x)&&(&(x)==(x).parent->lc))

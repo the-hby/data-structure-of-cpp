@@ -51,10 +51,10 @@ void Vector<T>::unsort(Rank lo,Rank hi)
         swap(V[i-1],V[rand()%i]);
     }
 }
-template<typename T> static bool lt(T*a,T*b){return lt(*a,*b);}
-template<typename T> static bool lt(T&a,T&b){return a<b;}
-template<typename T> static bool eq(T*a,T*b){return eq(*a,*b);}
-template<typename T> static bool eq(T&a,T&b){return a==b;}
+template<typename T>  static bool lt(T*a,T*b){return lt(*a,*b);}
+template<typename T>  static bool lt(T&a,T&b){return a<b;}
+template<typename T>  static bool eq(T*a,T*b){return eq(*a,*b);}
+template<typename T>  static bool eq(T&a,T&b){return a==b;}
 template<typename T> 
 Rank Vector<T>::find(const T&e,Rank lo,Rank hi)const
 {

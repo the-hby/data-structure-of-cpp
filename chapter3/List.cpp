@@ -1,5 +1,5 @@
 #include"./List.h"
-#include "listNode.h"
+#include "./listNode.h"
 template<typename T>
 void List<T>::init()
 {
@@ -175,10 +175,6 @@ void List<T>::sort(listNode<T>*p,int n)
         default:mergeSort(p,n);break;
     }
 }
-template<typename T>
-static bool lt(T*a,T*b){return lt(*a,*b);}
-template<typename T>
-static bool lt(T&a,T&b){return a<b;}
 template<typename T>
 listNode<T>* List<T>::selectMax(listNode<T>*p,int n)
 {

@@ -36,6 +36,7 @@ public:
     bool empty()const{return !_size;}
     int disordered()const;
     Rank find(const T&e,Rank lo,Rank hi)const;
+    Rank find(const T&e)const{return find(e,0,_size);}
     Rank search(const T&e)const
     {
         return (0>=_size)?-1:search(e,0,_size);
